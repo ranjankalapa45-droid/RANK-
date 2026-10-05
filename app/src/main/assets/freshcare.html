@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FreshCare • Corporate Login Portal</title>
+  <meta name="description" content="Official enterprise sign-in portal for FreshCare team members and partners.">
+  <style>
+    /* ==========================================================================
+       FreshCare Corporate Design System
+       Colors: Trust Corporate Blue & Fresh Emerald Green
+       ========================================================================== */
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-dark: #075985;
+      --primary-light: #e0f2fe;
+      --accent-green: #10b981;
+      --accent-green-dark: #059669;
+      --accent-green-light: #d1fae5;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-subtle: #64748b;
+      --bg-gradient-start: #f8fafc;
+      --bg-gradient-end: #edf5ff;
+      --surface: #ffffff;
+      --surface-subtle: #f8fafc;
+      --border-color: #e2e8f0;
+      --border-focus: #0284c7;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --success: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 10px 25px -5px rgba(2, 132, 199, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --shadow-card: 0 20px 35px -10px rgba(15, 23, 42, 0.08), 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: var(--font-sans);
+      color: var(--text-main);
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      background-attachment: fixed;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Outer Wrapper */
+    .portal-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Navigation / Brand Bar */
+    .top-header {
+      width: 100%;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-icon-svg {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.2));
+      transition: transform 0.3s ease;
+    }
+
+    .brand-logo:hover .logo-icon-svg {
+      transform: scale(1.05) rotate(3deg);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brand-name span.fresh {
+      color: var(--primary);
+    }
+
+    .brand-name span.care {
+      color: var(--accent-green-dark);
+    }
+
+    .brand-tagline {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      color: var(--text-subtle);
+    }
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #065f46;
+      background: #ecfdf5;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid #a7f3d0;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .header-help-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: transparent;
+      border: 1px solid var(--primary-light);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .header-help-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      padding: 40px 20px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #0f172a 30%, #0369a1 75%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: clamp(0.95rem, 1.8vw, 1.12rem);
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Main Split Grid (Login Card + Feature Cards) */
+    .portal-content {
+      flex: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 24px auto 48px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    /* Left: Login Card */
+    .login-card-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 500px;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .login-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent-green) 100%);
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .card-leaf-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e0f2fe 0%, #d1fae5 100%);
+      margin-bottom: 12px;
+      border: 1px solid #bae6fd;
+    }
+
+    .card-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Demo Notice Banner */
+    .demo-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      font-size: 0.8rem;
+      color: #166534;
+      line-height: 1.4;
+    }
+
+    .demo-notice-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    .demo-autofill-btn {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--primary);
+      text-decoration: underline;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      font-size: 0.78rem;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .field-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-subtle);
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 42px 0 42px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background-color: var(--surface-subtle);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-input:hover {
+      border-color: #cbd5e1;
+      background-color: #ffffff;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+    }
+
+    .form-input.is-invalid {
+      border-color: var(--danger);
+      background-color: #fffafb;
+    }
+
+    .form-input.is-invalid:focus {
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+    }
+
+    .toggle-password-btn {
+      position: absolute;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.2s, background-color 0.2s;
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--text-main);
+      background: #e2e8f0;
+    }
+
+    .toggle-password-btn:focus-visible {
+      outline: 2px solid var(--primary);
+    }
+
+    .field-error-msg {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--danger);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .field-error-msg.visible {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    /* Options Row: Remember Me & Forgot Password */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      font-size: 0.88rem;
+    }
+
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .remember-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .forgot-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 0.88rem;
+    }
+
+    .forgot-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    /* Blue Sign In Button */
+    .btn-submit {
+      width: 100%;
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+    }
+
+    .btn-submit:focus-visible {
+      outline: 3px solid rgba(2, 132, 199, 0.5);
+      outline-offset: 2px;
+    }
+
+    /* SSO Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 24px 0 20px;
+      color: var(--text-subtle);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .divider span {
+      padding: 0 12px;
+    }
+
+    /* Visual Demo SSO Buttons */
+    .sso-buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .sso-btn {
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sso-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sso-btn:active {
+      transform: translateY(0);
+    }
+
+    .sso-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Create Account Footer */
+    .card-footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-top: 1px solid #f1f5f9;
+      padding-top: 18px;
+    }
+
+    .create-account-link {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+      margin-left: 4px;
+      transition: color 0.2s;
+    }
+
+    .create-account-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    /* Right: Feature Cards Section */
+    .features-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .features-header {
+      margin-bottom: 4px;
+    }
+
+    .features-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-green-dark);
+      background: var(--accent-green-light);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 8px;
+    }
+
+    .features-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .features-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Individual Feature Card */
+    .feature-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      gap: 18px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: #cbd5e1;
+      background: #ffffff;
+    }
+
+    .feature-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-card.secure .feature-icon-box {
+      background: #eff6ff;
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+    }
+
+    .feature-card.fast .feature-icon-box {
+      background: #f0fdf4;
+      color: var(--accent-green);
+      border: 1px solid #bbf7d0;
+    }
+
+    .feature-card.together .feature-icon-box {
+      background: #faf5ff;
+      color: #9333ea;
+      border: 1px solid #e9d5ff;
+    }
+
+    .feature-info {
+      flex: 1;
+    }
+
+    .feature-heading {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Trust Quote / Stats Strip */
+    .trust-stat-box {
+      background: linear-gradient(135deg, #075985 0%, #0284c7 100%);
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.3);
+    }
+
+    .trust-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-size: 1.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Professional Footer */
+    .portal-footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border-color);
+      padding: 32px 24px 40px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-brand-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-link-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link-btn:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    /* Modals & Dialogs */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-window {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-color);
+      position: relative;
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-subtle);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .modal-close-btn:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-body {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-primary-action {
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary-action:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 300px;
+      max-width: 400px;
+      animation: slideInRight 0.3s ease;
+      border-left: 4px solid var(--accent-green);
+    }
+
+    .toast.info {
+      border-left-color: var(--primary);
+    }
+
+    .toast.error {
+      border-left-color: var(--danger);
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Loading Spinner inside Button */
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-submit.loading .btn-text {
+      opacity: 0.8;
+    }
+
+    .btn-submit.loading .spinner {
+      display: inline-block;
+    }
+
+    /* ==========================================================================
+       Responsive Media Queries
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .portal-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        max-width: 600px;
+      }
+
+      .features-column {
+        order: 2;
+      }
+
+      .login-card-container {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-header {
+        padding: 12px 16px;
+      }
+
+      .status-badge span.text {
+        display: none;
+      }
+
+      .hero-section {
+        padding: 24px 16px 12px;
+      }
+
+      .login-card {
+        padding: 28px 20px;
+        border-radius: var(--radius-md);
+      }
+
+      .sso-buttons-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .trust-stat-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .stat-divider {
+        display: none;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .toast {
+        min-width: auto;
+        width: calc(100vw - 32px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="portal-container">
+    <!-- Top Corporate Header -->
+    <header class="top-header">
+      <a href="#" class="brand-logo" aria-label="FreshCare Corporate Home">
+        <!-- Fictional FreshCare Green and Blue Leaf SVG Logo -->
+        <svg class="logo-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FreshCare Leaf Logo">
+          <circle cx="32" cy="32" r="30" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="2"/>
+          <!-- Blue Leaf Petal -->
+          <path d="M32 14C32 14 46 22 46 36C46 44 40 50 32 50C32 42 38 34 32 26C26 34 32 42 32 50C24 50 18 44 18 36C18 22 32 14 32 14Z" fill="url(#blueLeafGrad)"/>
+          <!-- Green Leaf Petal Accent -->
+          <path d="M32 14C32 14 20 22 20 35C20 41 24 46 30 48C28 42 30 33 36 28C33 24 32 18 32 14Z" fill="url(#greenLeafGrad)"/>
+          <!-- Stem and Water Droplet -->
+          <circle cx="32" cy="22" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+          <defs>
+            <linearGradient id="blueLeafGrad" x1="18" y1="14" x2="46" y2="50" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#38BDF8"/>
+              <stop offset="1" stop-color="#0284C7"/>
+            </linearGradient>
+            <linearGradient id="greenLeafGrad" x1="20" y1="14" x2="36" y2="48" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#34D399"/>
+              <stop offset="1" stop-color="#059669"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div class="brand-text">
+          <div class="brand-name">
+            <span class="fresh">Fresh</span><span class="care">Care</span>
+          </div>
+          <div class="brand-tagline">Corporate Access Portal</div>
+        </div>
+      </a>
+
+      <div class="header-status">
+        <div class="status-badge" title="Identity & Cloud Services Active">
+          <span class="status-dot"></span>
+          <span class="text">All Systems Operational</span>
+        </div>
+        <button type="button" class="header-help-btn" onclick="openModal('helpModal')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Help Desk
+        </button>
+      </div>
+    </header>
+
+    <!-- Large Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Unified Identity & Employee Workspace
+      </div>
+      <h1 id="hero-title" class="hero-title">Good Things Start Here</h1>
+      <p class="hero-desc">
+        Welcome to FreshCare's secure unified enterprise portal. Access personalized team dashboards, employee wellness benefits, collaborative services, and partner tools.
+      </p>
+    </section>
+
+    <!-- Main Section: Split Layout -->
+    <main class="portal-content">
+
+      <!-- Left Column: Centered Login Card -->
+      <div class="login-card-container">
+        <div class="login-card" role="region" aria-label="Sign In Card">
+          
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="card-leaf-badge">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+              </svg>
+            </div>
+            <h2 class="card-title">Welcome Back</h2>
+            <p class="card-subtitle">Sign in to continue</p>
+          </div>
+
+          <!-- Demo Notice & Quick Autofill -->
+          <div class="demo-notice" role="note">
+            <span class="demo-notice-icon">🛡️</span>
+            <div>
+              <strong>Demo Corporate Portal:</strong> Passwords are never stored or transmitted.
+              <div>
+                <button type="button" class="demo-autofill-btn" id="autofillBtn" onclick="autofillDemoCredentials()">
+                  Use Demo Credentials (alex.morgan@freshcare-corp.com)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Login Form with JS Validation -->
+          <form id="loginForm" novalidate onsubmit="handleFormSubmit(event)">
+            
+            <!-- Email / Username Input -->
+            <div class="form-group">
+              <label for="usernameInput" class="field-label">
+                Email or Corporate ID
+              </label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input 
+                  type="text" 
+                  id="usernameInput" 
+                  name="username" 
+                  class="form-input" 
+                  placeholder="employee@freshcare-corp.com or ID" 
+                  autocomplete="username"
+                  required
+                  aria-required="true"
+                  aria-describedby="usernameError"
+                  oninput="clearFieldError('usernameInput', 'usernameError')"
+                />
+              </div>
+              <div id="usernameError" class="field-error-msg" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="usernameErrorText">Please enter a valid work email or employee ID.</span>
+              </div>
+            </div>
+
+            <!-- Password Input with Show/Hide Button -->
+            <div class="form-group">
+              <div class="field-label">
+                <label for="passwordInput">Password</label>
+              </div>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input 
+                  type="password" 
+                  id="passwordInput" 
+                  name="password" 
+                  class="form-input" 
+                  placeholder="Enter corporate password" 
+                  autocomplete="current-password"
+                  required
+                  aria-required="true"
+                  aria-describedby="passwordError"
+                  oninput="clearFieldError('passwordInput', 'passwordError')"
+                />
+                <!-- Show/Hide Button -->
+                <button 
+                  type="button" 
+                  id="togglePasswordBtn" 
+                  class="toggle-password-btn" 
+                  aria-label="Show password"
+                  title="Show / Hide Password"
+                  onclick="togglePasswordVisibility()"
+                >
+                  <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div id="passwordError" class="field-error-msg" role="alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="passwordErrorText">Password is required (minimum 6 characters for demo).</span>
+              </div>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="form-options">
+              <label class="remember-label" for="rememberMe">
+                <input type="checkbox" id="rememberMe" name="rememberMe" class="remember-checkbox">
+                <span>Remember Me</span>
+              </label>
+              <button type="button" class="forgot-link" onclick="openModal('forgotModal')">
+                Forgot Password?
+              </button>
+            </div>
+
+            <!-- Blue Sign In Button -->
+            <button type="submit" id="submitBtn" class="btn-submit" aria-label="Sign In to FreshCare">
+              <span class="btn-text">Sign In</span>
+              <div class="spinner" aria-hidden="true"></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 2px;">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+
+          </form>
+
+          <!-- SSO Divider -->
+          <div class="divider">
+            <span>Or continue with SSO (Visual Demo)</span>
+          </div>
+
+          <!-- Google and Microsoft Visual Demo Buttons -->
+          <div class="sso-buttons-grid">
+            <button type="button" class="sso-btn" onclick="handleDemoSSO('Google Workspace')" aria-label="Sign in with Google Workspace Demo">
+              <!-- Official Google Icon SVG -->
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+              </svg>
+              <span>Google</span>
+            </button>
+
+            <button type="button" class="sso-btn" onclick="handleDemoSSO('Microsoft 365')" aria-label="Sign in with Microsoft 365 Demo">
+              <!-- Official Microsoft Square Icon SVG -->
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#F25022" d="M1 1h10v10H1z"/>
+                <path fill="#7FBA00" d="M13 1h10v10H13z"/>
+                <path fill="#00A4EF" d="M1 13h10v10H1z"/>
+                <path fill="#FFB900" d="M13 13h10v10H13z"/>
+              </svg>
+              <span>Microsoft</span>
+            </button>
+          </div>
+
+          <!-- Create Account Link -->
+          <div class="card-footer">
+            <span>New team member?</span>
+            <button type="button" class="create-account-link" onclick="openModal('createAccountModal')">
+              Create Account
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Column: Corporate Feature Cards -->
+      <div class="features-column" role="region" aria-label="FreshCare Enterprise Highlights">
+        
+        <div class="features-header">
+          <div class="features-badge">Enterprise Trust & Security</div>
+          <h2 class="features-title">Designed for Modern Teams</h2>
+          <p class="features-sub">Experience enterprise-grade reliability, data privacy, and unified workplace care.</p>
+        </div>
+
+        <!-- Feature Card 1: Secure Login -->
+        <div class="feature-card secure">
+          <div class="feature-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <div class="feature-info">
+            <h3 class="feature-heading">
+              Secure Login
+              <span style="font-size: 0.72rem; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 999px;">Zero-Trust</span>
+            </h3>
+            <p class="feature-desc">
+              Multi-factor biometric verification, continuous hardware token validation, and end-to-end encrypted session keys protect corporate assets.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 2: Fast & Easy -->
+        <div class="feature-card fast">
+          <div class="feature-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="feature-info">
+            <h3 class="feature-heading">
+              Fast & Easy
+              <span style="font-size: 0.72rem; color: var(--accent-green-dark); background: var(--accent-green-light); padding: 2px 8px; border-radius: 999px;">Single-Click</span>
+            </h3>
+            <p class="feature-desc">
+              Instant Single Sign-On connects you in seconds to payroll, company benefits, healthcare documents, and collaborative cloud tools.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 3: Better Together -->
+        <div class="feature-card together">
+          <div class="feature-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="feature-info">
+            <h3 class="feature-heading">
+              Better Together
+              <span style="font-size: 0.72rem; color: #7e22ce; background: #f3e8ff; padding: 2px 8px; border-radius: 999px;">Global Network</span>
+            </h3>
+            <p class="feature-desc">
+              Connecting over 45,000 healthcare professionals, operational specialists, and enterprise partners across worldwide facilities.
+            </p>
+          </div>
+        </div>
+
+        <!-- Trust Stats Banner -->
+        <div class="trust-stat-box">
+          <div class="trust-stat-item">
+            <span class="stat-number">99.99%</span>
+            <span class="stat-label">System Uptime</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="trust-stat-item">
+            <span class="stat-number">256-Bit</span>
+            <span class="stat-label">SSL Encryption</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="trust-stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Enterprise Support</span>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="portal-footer" role="contentinfo">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-brand-title">
+            <span style="color: var(--primary);">FreshCare</span> Systems Global Inc.
+          </div>
+          <div class="footer-copy">
+            &copy; 2026 FreshCare Inc. All rights reserved. Fictional corporate portal for demonstration purposes.
+          </div>
+        </div>
+
+        <ul class="footer-links">
+          <li><button type="button" class="footer-link-btn" onclick="openModal('privacyModal')">Privacy Policy</button></li>
+          <li><button type="button" class="footer-link-btn" onclick="openModal('termsModal')">Terms of Use</button></li>
+          <li><button type="button" class="footer-link-btn" onclick="openModal('helpModal')">Help Center</button></li>
+          <li><button type="button" class="footer-link-btn" onclick="openModal('contactModal')">Contact Us</button></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==========================================================================
+       Modals for Complete Experience (Forgot Password, Create Account, Legal)
+       ========================================================================== -->
+
+  <!-- Modal: Forgot Password -->
+  <div id="forgotModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'forgotModal')">
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="forgotModalTitle">
+      <button type="button" class="modal-close-btn" onclick="closeModal('forgotModal')" aria-label="Close dialog">&times;</button>
+      <h3 id="forgotModalTitle" class="modal-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        Reset Corporate Password
+      </h3>
+      <div class="modal-body">
+        <p style="margin-bottom: 14px;">Enter your registered FreshCare corporate email or employee ID. A secure one-time verification link will be delivered via your organization's directory.</p>
+        <div class="form-group">
+          <label for="recoveryEmail" class="field-label">Work Email or ID</label>
+          <input type="email" id="recoveryEmail" class="form-input" placeholder="name@freshcare-corp.com" style="padding-left: 14px;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('forgotModal')">Cancel</button>
+        <button type="button" class="btn-primary-action" onclick="submitPasswordReset()">Send Reset Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Create Account -->
+  <div id="createAccountModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'createAccountModal')">
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="createModalTitle">
+      <button type="button" class="modal-close-btn" onclick="closeModal('createAccountModal')" aria-label="Close dialog">&times;</button>
+      <h3 id="createModalTitle" class="modal-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-green);">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+        Request Enterprise Access
+      </h3>
+      <div class="modal-body">
+        <p style="margin-bottom: 12px;">FreshCare corporate accounts are provisioned via enterprise IT or HR invitation tokens. Please submit your employee credentials to begin onboarding.</p>
+        <div class="form-group">
+          <label class="field-label">Full Name</label>
+          <input type="text" id="regName" class="form-input" placeholder="e.g. Alex Morgan" style="padding-left: 14px;">
+        </div>
+        <div class="form-group">
+          <label class="field-label">Department / Unit</label>
+          <input type="text" id="regDept" class="form-input" placeholder="e.g. Healthcare Logistics" style="padding-left: 14px;">
+        </div>
+        <div class="form-group">
+          <label class="field-label">Work Email</label>
+          <input type="email" id="regEmail" class="form-input" placeholder="e.g. alex.morgan@freshcare-corp.com" style="padding-left: 14px;">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('createAccountModal')">Cancel</button>
+        <button type="button" class="btn-primary-action" onclick="submitAccountRequest()">Submit Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Privacy Policy -->
+  <div id="privacyModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'privacyModal')">
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+      <button type="button" class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
+      <h3 id="privacyTitle" class="modal-title">Privacy Policy</h3>
+      <div class="modal-body">
+        <p><strong>FreshCare Corporate Privacy Standard (Demo)</strong></p>
+        <p style="margin-top: 8px;">1. <strong>Zero-Collection Policy:</strong> This login portal operates in safe demo mode. No passwords or authentication tokens are stored, recorded, or transmitted to any external server.</p>
+        <p style="margin-top: 8px;">2. <strong>Fictional Identity:</strong> FreshCare is an entirely fictional corporate brand created for demonstration and design benchmarking. It is not affiliated with Procter & Gamble, GreatPG, or any real-world healthcare provider.</p>
+        <p style="margin-top: 8px;">3. <strong>Data Security:</strong> Enterprise portals require end-to-end transport layer security (TLS 1.3) and strict role-based access control (RBAC).</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary-action" onclick="closeModal('privacyModal')">Understood</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Terms of Use -->
+  <div id="termsModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'termsModal')">
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+      <button type="button" class="modal-close-btn" onclick="closeModal('termsModal')">&times;</button>
+      <h3 id="termsTitle" class="modal-title">Terms of Corporate Use</h3>
+      <div class="modal-body">
+        <p><strong>Acceptable Use Guidelines</strong></p>
+        <p style="margin-top: 8px;">• Authorized personnel only may access FreshCare internal directories and services.</p>
+        <p style="margin-top: 8px;">• All automated security scans, credential checks, and audit trails are logged in compliance with simulated enterprise governance.</p>
+        <p style="margin-top: 8px;">• Keep login credentials confidential and notify the FreshCare Security Operations Center (SOC) of any anomalous activity.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary-action" onclick="closeModal('termsModal')">I Agree</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Help & Contact -->
+  <div id="helpModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'helpModal')">
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <button type="button" class="modal-close-btn" onclick="closeModal('helpModal')">&times;</button>
+      <h3 id="helpTitle" class="modal-title">Enterprise Help Desk</h3>
+      <div class="modal-body">
+        <p><strong>Need assistance signing in?</strong></p>
+        <ul style="margin-left: 20px; margin-top: 8px;">
+          <li><strong>IT Support Hotline:</strong> +1 (800) 555-CARE (Demo)</li>
+          <li><strong>Self-Service Portal:</strong> helpdesk.freshcare-corp.local</li>
+          <li><strong>MFA Token Sync:</strong> Submit ticket via internal Slack/Teams #help-desk channel.</li>
+        </ul>
+        <p style="margin-top: 14px; font-size: 0.85rem; color: var(--text-subtle);">Demo note: Use the "Use Demo Credentials" button on the login card to test the sign-in experience instantly.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary-action" onclick="closeModal('helpModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Contact Us -->
+  <div id="contactModal" class="modal-backdrop" onclick="handleBackdropClick(event, 'contactModal')">
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+      <button type="button" class="modal-close-btn" onclick="closeModal('contactModal')">&times;</button>
+      <h3 id="contactTitle" class="modal-title">Contact FreshCare Enterprise</h3>
+      <div class="modal-body">
+        <p>For corporate partnerships, vendor access, or media inquiries:</p>
+        <p style="margin-top: 8px;"><strong>Global Headquarters:</strong> 100 FreshCare Parkway, Suite 400, Chicago, IL 60601</p>
+        <p style="margin-top: 4px;"><strong>Direct Inquiries:</strong> contact@freshcare-corp.example</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary-action" onclick="closeModal('contactModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ==========================================================================
+       Embedded JavaScript: Form Validation, Password Show/Hide, Demo Flows
+       ========================================================================== -->
+  <script>
+    // State Variables
+    let isPasswordVisible = false;
+
+    // Toggle Password Visibility
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('passwordInput');
+      const toggleBtn = document.getElementById('togglePasswordBtn');
+      const eyeIcon = document.getElementById('eyeIcon');
+
+      isPasswordVisible = !isPasswordVisible;
+
+      if (isPasswordVisible) {
+        passwordInput.type = 'text';
+        toggleBtn.setAttribute('aria-label', 'Hide password');
+        toggleBtn.title = 'Hide password';
+        // Eye with slash icon SVG
+        eyeIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.setAttribute('aria-label', 'Show password');
+        toggleBtn.title = 'Show password';
+        // Standard eye icon SVG
+        eyeIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    // Autofill Demo Credentials
+    function autofillDemoCredentials() {
+      const usernameInput = document.getElementById('usernameInput');
+      const passwordInput = document.getElementById('passwordInput');
+      
+      usernameInput.value = 'alex.morgan@freshcare-corp.com';
+      passwordInput.value = 'FreshCare#2026';
+      
+      clearFieldError('usernameInput', 'usernameError');
+      clearFieldError('passwordInput', 'passwordError');
+
+      showToast('Demo credentials prefilled successfully!', 'info');
+      usernameInput.focus();
+    }
+
+    // Clear Field Error Style & Message
+    function clearFieldError(inputId, errorId) {
+      const input = document.getElementById(inputId);
+      const errorElem = document.getElementById(errorId);
+      if (input) input.classList.remove('is-invalid');
+      if (errorElem) errorElem.classList.remove('visible');
+    }
+
+    // Set Field Error Style & Message
+    function setFieldError(inputId, errorId, message) {
+      const input = document.getElementById(inputId);
+      const errorElem = document.getElementById(errorId);
+      const errorText = errorElem ? errorElem.querySelector('span') : null;
+
+      if (input) {
+        input.classList.add('is-invalid');
+      }
+      if (errorElem) {
+        if (errorText) errorText.textContent = message;
+        errorElem.classList.add('visible');
+      }
+    }
+
+    // Email / Username Format Validation
+    function validateUsername(value) {
+      const trimmed = value.trim();
+      if (!trimmed) {
+        return { isValid: false, message: 'Please enter your corporate email or employee ID.' };
+      }
+      // If it contains an '@', validate basic email structure
+      if (trimmed.includes('@')) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(trimmed)) {
+          return { isValid: false, message: 'Please enter a valid corporate email address.' };
+        }
+      } else if (trimmed.length < 3) {
+        return { isValid: false, message: 'Employee ID must be at least 3 characters.' };
+      }
+      return { isValid: true };
+    }
+
+    // Password Validation
+    function validatePassword(value) {
+      if (!value) {
+        return { isValid: false, message: 'Password is required to sign in.' };
+      }
+      if (value.length < 6) {
+        return { isValid: false, message: 'Password must be at least 6 characters.' };
+      }
+      return { isValid: true };
+    }
+
+    // Handle Form Submission
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const usernameInput = document.getElementById('usernameInput');
+      const passwordInput = document.getElementById('passwordInput');
+      const submitBtn = document.getElementById('submitBtn');
+
+      const usernameVal = usernameInput.value;
+      const passwordVal = passwordInput.value;
+
+      // Validate Fields
+      const userCheck = validateUsername(usernameVal);
+      const passCheck = validatePassword(passwordVal);
+
+      let hasError = false;
+
+      if (!userCheck.isValid) {
+        setFieldError('usernameInput', 'usernameError', userCheck.message);
+        usernameInput.focus();
+        hasError = true;
+      } else {
+        clearFieldError('usernameInput', 'usernameError');
+      }
+
+      if (!passCheck.isValid) {
+        setFieldError('passwordInput', 'passwordError', passCheck.message);
+        if (!hasError) passwordInput.focus();
+        hasError = true;
+      } else {
+        clearFieldError('passwordInput', 'passwordError');
+      }
+
+      if (hasError) {
+        showToast('Please correct the highlighted fields.', 'error');
+        return;
+      }
+
+      // Simulate Sign In Process
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+
+        // Display Success Feedback
+        const rememberMe = document.getElementById('rememberMe').checked;
+        const displayName = usernameVal.includes('@') ? usernameVal.split('@')[0] : usernameVal;
+
+        showToast(`Welcome back, ${displayName}! Demo sign-in verified.`, 'success');
+
+        // Optional friendly greeting alert modal
+        showSuccessModal(displayName, rememberMe);
+      }, 750);
+    }
+
+    // Show Success Modal upon Sign In
+    function showSuccessModal(username, rememberMe) {
+      // Create and open dynamically
+      let existingModal = document.getElementById('successModal');
+      if (!existingModal) {
+        existingModal = document.createElement('div');
+        existingModal.id = 'successModal';
+        existingModal.className = 'modal-backdrop';
+        existingModal.onclick = (e) => handleBackdropClick(e, 'successModal');
+        document.body.appendChild(existingModal);
+      }
+
+      existingModal.innerHTML = `
+        <div class="modal-window" role="dialog" aria-modal="true" style="text-align: center;">
+          <button type="button" class="modal-close-btn" onclick="closeModal('successModal')">&times;</button>
+          <div style="width: 60px; height: 60px; margin: 0 auto 16px; background: #ecfdf5; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #a7f3d0; color: #10b981;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="modal-title" style="justify-content: center; margin-bottom: 8px;">Signed In Successfully</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
+            Authenticated as <strong>${username}</strong> via FreshCare Enterprise Identity Hub.
+          </p>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 0.85rem; color: var(--text-subtle); margin-bottom: 20px; text-align: left;">
+            <div>• Session Token: <code>fc_demo_${Math.random().toString(36).substring(2, 9)}</code></div>
+            <div>• Remember Device: <strong>${rememberMe ? 'Enabled (30 days)' : 'Disabled'}</strong></div>
+            <div>• Demo Environment: No private data transmitted.</div>
+          </div>
+          <div style="display: flex; justify-content: center; gap: 10px;">
+            <button type="button" class="btn-primary-action" onclick="closeModal('successModal')">Continue to Workspace</button>
+          </div>
+        </div>
+      `;
+      openModal('successModal');
+    }
+
+    // SSO Demo Visual Handler
+    function handleDemoSSO(providerName) {
+      showToast(`${providerName} SSO is a visual demo button.`, 'info');
+    }
+
+    // Modal Control Functions
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handleBackdropClick(event, modalId) {
+      if (event.target && event.target.id === modalId) {
+        closeModal(modalId);
+      }
+    }
+
+    // Keyboard Esc key to close any open modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const openModals = document.querySelectorAll('.modal-backdrop.is-open');
+        openModals.forEach((m) => closeModal(m.id));
+      }
+    });
+
+    // Password Reset Submission
+    function submitPasswordReset() {
+      const emailInput = document.getElementById('recoveryEmail');
+      if (!emailInput.value.trim()) {
+        showToast('Please provide an email or ID for password reset.', 'error');
+        return;
+      }
+      closeModal('forgotModal');
+      showToast(`Password recovery link dispatched to ${emailInput.value.trim()}!`, 'success');
+      emailInput.value = '';
+    }
+
+    // Create Account Request Submission
+    function submitAccountRequest() {
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      if (!name || !email) {
+        showToast('Please fill in your name and corporate email.', 'error');
+        return;
+      }
+      closeModal('createAccountModal');
+      showToast(`Onboarding request for ${name} submitted to HR IT.`, 'success');
+      document.getElementById('regName').value = '';
+      document.getElementById('regDept').value = '';
+      document.getElementById('regEmail').value = '';
+    }
+
+    // Toast Notification System
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      let icon = 'ℹ️';
+      if (type === 'success') icon = '✅';
+      if (type === 'error') icon = '⚠️';
+
+      toast.innerHTML = `
+        <span style="font-size: 1.1rem;">${icon}</span>
+        <span style="flex: 1;">${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

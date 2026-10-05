@@ -1,0 +1,8 @@
+{
+  "name": "Fogh",
+  "description": "A modern, responsive corporate login interface featuring clean design, interactive validation, and professional branding elements.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
